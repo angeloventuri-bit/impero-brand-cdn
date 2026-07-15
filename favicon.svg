@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect width="32" height="32" rx="6" fill="#0A0B0C"/>
+  <!-- Base bar -->
+  <rect x="5.5" y="21.5" width="21" height="3" rx="0.5" fill="#C9A84C"/>
+  <!-- Crown body (zigzag) -->
+  <path d="M5.5 21.5L8.5 11.5L13.5 17.5L16 8.5L18.5 17.5L23.5 11.5L26.5 21.5H5.5Z" fill="#C9A84C"/>
+  <!-- Highlight gradient on crown -->
+  <path d="M5.5 21.5L8.5 11.5L13.5 17.5L16 8.5L18.5 17.5L23.5 11.5L26.5 21.5H5.5Z" fill="url(#cg)"/>
+  <!-- Jewels on crown tips -->
+  <circle cx="8.5" cy="11" r="2" fill="#FFE08A"/>
+  <circle cx="16" cy="8" r="2.2" fill="#FFE08A"/>
+  <circle cx="23.5" cy="11" r="2" fill="#FFE08A"/>
+  <!-- Jewel shine -->
+  <circle cx="8" cy="10.5" r="0.6" fill="white" opacity="0.5"/>
+  <circle cx="15.5" cy="7.5" r="0.7" fill="white" opacity="0.5"/>
+  <circle cx="23" cy="10.5" r="0.6" fill="white" opacity="0.5"/>
+  <defs>
+    <linearGradient id="cg" x1="16" y1="8.5" x2="16" y2="21.5" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E8C96A" stop-opacity="0.15"/>
+      <stop offset="1" stop-color="#C9A84C" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+</svg>

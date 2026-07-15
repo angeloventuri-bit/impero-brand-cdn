@@ -16,7 +16,7 @@ const defaultState = () => {
     else diagnostico[c.id] = '';
   }));
   return {
-    cliente: { nome: '', contato: '', email: '', tel: '', momento: 'nova' },
+    cliente: { nome: '', contato: '', email: '', tel: '', momento: (window.APP_TIPO && window.APP_TIPO !== 'completo' && window.APP_TIPO !== 'diagnostico') ? '' : 'nova' },
     diagnostico,
     escopo: { cenario: (typeof SCENARIOS !== 'undefined' ? (SCENARIOS.find(s => s.destaque) || SCENARIOS[1] || SCENARIOS[0]).id : '') },
     obs: '',
@@ -65,7 +65,8 @@ function buildMarkdown(payload) {
   L.push('- **Contato:** ' + (c.contato || '—'));
   L.push('- **E-mail:** ' + (c.email || '—'));
   L.push('- **WhatsApp:** ' + (c.tel || '—'));
-  L.push('- **Momento:** ' + (MOMENTOS[c.momento] || c.momento || '—'), '');
+  if (c.momento) L.push('- **Momento:** ' + (MOMENTOS[c.momento] || c.momento));
+  L.push('');
   const rot = (l) => (/[?!.]$/.test(l) ? l : l + ':');
   DIAG.forEach(sec => {
     const linhas = [];
@@ -137,10 +138,10 @@ function buildField(c) {
   box.appendChild(label);
   const val = () => state.diagnostico[c.id];
 
-  if (c.tipo === 'text' || c.tipo === 'textarea') {
+  if (c.tipo === 'text' || c.tipo === 'textarea' || c.tipo === 'number') {
     const el = c.tipo === 'textarea'
       ? create('textarea', { className: 'input', rows: 3, placeholder: c.ph || '' })
-      : create('input', { type: 'text', className: 'input', placeholder: c.ph || '' });
+      : create('input', { type: c.tipo === 'number' ? 'number' : 'text', className: 'input', placeholder: c.ph || '', inputmode: c.tipo === 'number' ? 'decimal' : 'text' });
     el.id = 'f-' + c.id; el.value = val();
     el.addEventListener('input', e => { state.diagnostico[c.id] = e.target.value; renderAll(); });
     box.appendChild(el);
@@ -295,7 +296,7 @@ async function submitBriefing() {
     if (v.firstBad) v.firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
-  const payload = { tipo: MODE, cliente: state.cliente, diagnostico: state.diagnostico, obs: state.obs, origem: location.href, enviadoEm: new Date().toISOString() };
+  const payload = { tipo: (window.APP_TIPO || MODE), cliente: state.cliente, diagnostico: state.diagnostico, obs: state.obs, origem: location.href, enviadoEm: new Date().toISOString() };
   if (MODE === 'completo') {
     const q = computeQuote();
     if (q.scn) payload.estimativa = { cenario: q.scn.nome, cenarioId: q.scn.id, total: q.total, prazo: q.scn.prazo, entregaveis: q.scn.entregaveis };
